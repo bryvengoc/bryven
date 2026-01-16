@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personnel Intake | Bryven Group</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;600&family=Playfair+Display:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #050505; }
+        * { cursor: none !important; }
+        body { background-color: var(--bg); color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        #cursor-dot { position: fixed; top: 0; left: 0; width: 6px; height: 6px; background: white; border-radius: 50%; z-index: 100001; pointer-events: none; mix-blend-mode: difference; }
+        #cursor-outline { position: fixed; top: 0; left: 0; width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; z-index: 100000; pointer-events: none; }
+        
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
+
+        .glass-nav { backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.03); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+        .nav-link {
+            position: relative;
+            transition: all 0.4s ease;
+            display: inline-block;
+            user-select: none;
+        }
+        
+        .nav-link::after {
+            content: ''; position: absolute;
+            bottom: -4px; left: 50%;
+            width: 0; height: 1px;
+            background: white;
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            transform: translateX(-50%);
+        }
+        .nav-link:hover { letter-spacing: 0.3em; }
+        .nav-link:hover::after { width: 100%; }
+        .skill-checkbox:checked + label {
+            background: white !important;
+            color: black !important;
+            border-color: white !important;
+        }
+
+        .skill-checkbox:disabled + label {
+            opacity: 0.1;
+            cursor: not-allowed !important;
+            border-style: dashed;
+        }
+
+        .tier-label { font-size: 9px; letter-spacing: 0.5em; display: block; margin-bottom: 20px; }
+        
+        input, select, textarea { 
+            background: rgba(255, 255, 255, 0.02) !important; 
+            border: 1px solid rgba(255, 255, 255, 0.08) !important; 
+            color: white !important;
+            border-radius: 0px !important;
+            transition: all 0.3s ease;
+        }
+        input:focus { border-color: white !important; outline: none; background: rgba(255, 255, 255, 0.05) !important; }
+        
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            opacity: 0.5;
+            cursor: pointer;
+        }
+
+        .form-section-header { border-left: 2px solid white; padding-left: 15px; margin: 60px 0 30px 0; }
+
+        #captcha-code {
+            user-select: none;
+            background: linear-gradient(45deg, #111, #222);
+            letter-spacing: 0.8em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <link rel="icon" type="image/png" href="bryven-icon.jpg">
+    <div id="cursor-dot"></div>
+    <div id="cursor-outline"></div>
+
+    <nav id="nav-bar" class="fixed top-0 w-full z-50 glass-nav px-12 py-6 flex justify-between items-center">
+        <div class="flex items-center space-x-4">
+            <div class="text-[11px] tracking-[0.6em] font-light uppercase cursor-pointer" onclick="window.location.href='index.html'">
+                Bryven <span class="opacity-40">Group</span>
+            </div>
+        </div>
+        
+        <div class="hidden md:flex space-x-12 text-[9px] tracking-[0.4em] uppercase font-medium">
+            <span class="nav-link" onclick="window.location.href='our-vision.html'">Our Vision</span>
+            <span class="nav-link border-b border-white/40">Join Us</span>
+            <span class="nav-link" onclick="window.location.href='contactus.html'">Contact</span>
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <div class="w-1.5 h-1.5 bg-white rounded-full animate-ping"></div>
+            <span class="text-[8px] uppercase tracking-[0.3em] opacity-50">Global Operational</span>
+        </div>
+    </nav>
+
+    <main class="pt-40 pb-32 px-6 flex justify-center">
+        <div class="max-w-5xl w-full">
+            <form id="advanced-recruitment" class="space-y-12">
+                <input type="hidden" name="access_key" value="2e63de45-078e-4b6a-ac33-98171baca6d9">
+                <input type="hidden" name="subject" value="New Personnel Application">
+                <input type="hidden" name="from_name" value="Bryven Intake Portal">
+                
+                <div class="form-section-header">
+                    <h2 class="text-xs tracking-[0.4em] uppercase">Identity & Contact</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <input type="text" name="name" placeholder="FULL LEGAL NAME" required class="p-4 text-[9px] tracking-widest uppercase">
+                    <input type="email" name="email" placeholder="EMAIL ADDRESS" required class="p-4 text-[9px] tracking-widest uppercase">
+                    <input type="tel" name="phone" placeholder="SECURE CONTACT NUMBER" class="p-4 text-[9px] tracking-widest uppercase">
+                    
+                    <input type="text" name="occupation" placeholder="PRIMARY OCCUPATION" required class="p-4 text-[9px] tracking-widest uppercase">
+                    <input type="text" name="organization" placeholder="CURRENT ORGANIZATION / AFFILIATION" class="p-4 text-[9px] tracking-widest uppercase">
+                    <input type="text" name="location" placeholder="CITY / COUNTRY OF RESIDENCE" required class="p-4 text-[9px] tracking-widest uppercase">
+                    
+                    <input type="text" name="linkedin" placeholder="LINKEDIN PROFILE URL" class="p-4 text-[9px] tracking-widest uppercase">
+                    <input type="text" name="portfolio" placeholder="PORTFOLIO / GITHUB / DOSSIER LINK" class="p-4 text-[9px] tracking-widest uppercase">
+                    
+                    <div class="relative flex items-center">
+                        <span class="absolute left-4 text-[7px] tracking-widest opacity-40 pointer-events-none uppercase">DOB:</span>
+                        <input type="date" name="dob" required class="p-4 pl-12 w-full text-[9px] tracking-widest uppercase">
+                    </div>
+                </div>
+
+                <div class="form-section-header">
+                    <h2 class="text-xs tracking-[0.4em] uppercase ">Tiered Skill Architecture</h2>
+                    <p class="text-[8px] text-white/40 mt-2 tracking-widest">Note: Select baseline skills (T3-T5) to unlock elite tiers (T1-T2).</p>
+                </div>
+
+                <div class="space-y-12">
+                    <div class="space-y-10">
+                        <div>
+                            <span class="tier-label text-red-500">Tier 01: STRATEGIC SYSTEMS & ARCHITECTURE</span>
+                            <div class="grid grid-cols-2 md:grid-cols-5 gap-2" id="tier1-grid"></div>
+                        </div>
+                        <div>
+                            <span class="tier-label text-orange-500">Tier 02: ADVANCED TECHNICAL OPERATIONS</span>
+                            <div class="grid grid-cols-2 md:grid-cols-5 gap-2" id="tier2-grid"></div>
+                        </div>
+                        <div>
+                            <span class="tier-label text-yellow-500">Tier 03: OPERATIONAL INTELLIGENCE</span>
+                            <div class="grid grid-cols-2 md:grid-cols-5 gap-2" id="tier3-grid"></div>
+                        </div>
+                        <div>
+                            <span class="tier-label text-green-500">Tier 04: CORE INFRASTRUCTURE</span>
+                            <div class="grid grid-cols-2 md:grid-cols-5 gap-2" id="tier4-grid"></div>
+                        </div>
+                        <div>
+                            <span class="tier-label text-blue-500">Tier 05: FOUNDATIONAL SUPPORT</span>
+                            <div class="grid grid-cols-2 md:grid-cols-5 gap-2" id="tier5-grid"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section-header">
+                    <h2 class="text-xs tracking-[0.4em] uppercase">Verification</h2>
+                </div>
+
+                <div id="admin-portal" class="hidden border border-blue-500/30 p-10 bg-blue-500/[0.02] space-y-6 mb-8">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-blue-500 rounded-full animate-ping"></div>
+                            <h3 class="text-[10px] tracking-[0.6em] uppercase">Administrative Board Access Available</h3>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <input type="checkbox" id="request-admin" name="request_admin" class="w-4 h-4 bg-transparent border-white/20 accent-blue-500 cursor-pointer">
+                            <label for="request-admin" class="text-[8px] tracking-widest uppercase text-blue-400 cursor-pointer">Request Admin Review</label>
+                        </div>
+                    </div>
+                    <textarea name="admin_proposal" placeholder="PROPOSE YOUR STRATEGIC VISION FOR BRYVEN GROUP" class="w-full p-4 bg-transparent border border-white/10 text-[9px] tracking-widest uppercase resize-none h-32"></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center border border-white/5 p-6 bg-white/[0.01]">
+                    <div class="flex flex-col space-y-2">
+                        <span class="text-[8px] tracking-[0.3em] uppercase opacity-40">Human Verification</span>
+                        <div id="captcha-code" class="p-4 text-center text-lg font-mono tracking-[0.5em] border border-white/10 select-none">------</div>
+                        <button type="button" onclick="generateCaptcha()" class="text-[7px] tracking-widest uppercase opacity-30 hover:opacity-100 text-left transition-opacity">Regenerate Sequence</button>
+                    </div>
+                    <div class="flex flex-col space-y-2">
+                        <span class="text-[8px] tracking-[0.3em] uppercase opacity-40">Enter Sequence</span>
+                        <input type="text" id="captcha-input" placeholder="CASE SENSITIVE" required class="p-4 text-[9px] tracking-widest uppercase">
+                    </div>
+                </div>
+
+                <button type="submit" id="submit-btn" class="w-full py-8 border border-white/10 text-[11px] tracking-[0.8em] uppercase hover:bg-white hover:text-black transition-all duration-700">
+                    Submit Personnel Application
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="pb-12 text-center">
+        <p class="text-[8px] tracking-[0.8em] uppercase text-white/60 font-light">
+            &copy; 2026 Bryven Group. All Rights Reserved.
+        </p>
+    </footer>
+
+    <script>
+        const skillData = {
+            t1: ["Neural Synthesis", "Quantum Computing", "Kernel Engineering", "Exploit Development", "Cryptology", "Bio-Tech Integration", "AI Governance", "Zero-Day Research", "Autonomous Logic", "Orbital Comms"],
+            t2: ["Cloud Security", "Blockchain Arch", "Advanced DevOps", "Threat Hunting", "Data Science", "System Hardening", "Reverse Engineering", "Network Synthesis", "Signal Processing", "Satcom Ops"],
+            t3: ["Risk Management", "Product Scaling", "Venture Capital", "Digital Forensics", "API Ecosystems", "Hardware Prototyping", "Fullstack Dev", "Database Design", "Market Intel", "Corporate Strategy"],
+            t4: ["UI/UX Synthesis", "Vector Design", "Content Strategy", "Legal Compliance", "Global Logistics", "Public Relations", "Human Resources", "Social Engineering", "QA Automation", "Event Arch"],
+            t5: ["Project Support", "Technical Writing", "Media Management", "Asset Tracking", "Client Relations", "Data Entry", "System Maintenance", "Inventory Control", "Research Assist", "General Support"]
+        };
+
+        let currentCaptcha = "";
+
+        const generateCaptcha = () => {
+            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789!@#$%^&*()";
+            let result = "";
+            for (let i = 0; i < 6; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            currentCaptcha = result;
+            document.getElementById('captcha-code').innerText = result;
+        };
+
+        const createSkillGrid = (list, containerId, tierClass) => {
+            const container = document.getElementById(containerId);
+            list.forEach((skill, i) => {
+                const id = `skill-${containerId}-${i}`;
+                const isDisabled = (tierClass === 't1-check' || tierClass === 't2-check') ? 'disabled' : '';
+                container.innerHTML += `
+                    <div class="relative">
+                        <input type="checkbox" name="skills[]" value="${skill}" id="${id}" class="skill-checkbox hidden ${tierClass}" ${isDisabled}>
+                        <label for="${id}" class="block border border-white/5 p-4 text-[8px] tracking-[0.2em] uppercase text-center cursor-pointer hover:border-white/20 transition-all truncate">
+                            ${skill}
+                        </label>
+                    </div>`;
+            });
+        };
+
+        createSkillGrid(skillData.t1, 'tier1-grid', 't1-check');
+        createSkillGrid(skillData.t2, 'tier2-grid', 't2-check');
+        createSkillGrid(skillData.t3, 'tier3-grid', 't3-check');
+        createSkillGrid(skillData.t4, 'tier4-grid', 't4-check');
+        createSkillGrid(skillData.t5, 'tier5-grid', 't5-check');
+        generateCaptcha();
+
+        const allChecks = document.querySelectorAll('.skill-checkbox');
+        const t1t2Checks = document.querySelectorAll('.t1-check, .t2-check');
+        const lowerTierChecks = document.querySelectorAll('.t3-check, .t4-check, .t5-check');
+        const adminPortal = document.getElementById('admin-portal');
+        const adminRequest = document.getElementById('request-admin');
+        const submitBtn = document.getElementById('submit-btn');
+
+        function updateFormState() {
+            const lowerCount = Array.from(lowerTierChecks).filter(c => c.checked).length;
+            t1t2Checks.forEach(c => {
+                c.disabled = lowerCount === 0;
+            });
+
+            const eliteCount = Array.from(t1t2Checks).filter(c => c.checked).length;
+            if (eliteCount >= 3) {
+                adminPortal.classList.remove('hidden');
+            } else {
+                adminPortal.classList.add('hidden');
+                adminRequest.checked = false;
+            }
+
+            if (adminRequest.checked) {
+                submitBtn.innerText = "Apply for Administrative Board";
+            } else {
+                submitBtn.innerText = "Submit Personnel Application";
+            }
+        }
+
+        allChecks.forEach(check => check.addEventListener('change', updateFormState));
+        adminRequest.addEventListener('change', updateFormState);
+
+        // WEB3FORMS AJAX SUBMISSION
+        document.getElementById('advanced-recruitment').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const userInput = document.getElementById('captcha-input').value.trim().toUpperCase();
+            if (userInput !== currentCaptcha) {
+                alert("HUMAN VERIFICATION FAILED: INVALID SEQUENCE");
+                generateCaptcha();
+                document.getElementById('captcha-input').value = "";
+                return;
+            }
+
+            const formData = new FormData(this);
+            const object = Object.fromEntries(formData);
+            
+            // Special handling for the skills array
+            const skills = [];
+            document.querySelectorAll('input[name="skills[]"]:checked').forEach((checkbox) => {
+                skills.push(checkbox.value);
+            });
+            object.skills = skills.join(", ");
+            delete object['skills[]'];
+
+            const json = JSON.stringify(object);
+
+            submitBtn.innerText = "Transmitting Credentials...";
+            submitBtn.disabled = true;
+
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: json
+            })
+            .then(async (response) => {
+                let jsonRes = await response.json();
+                if (response.status == 200) {
+                    submitBtn.innerText = "Application Transmitted";
+                    submitBtn.style.backgroundColor = "white";
+                    submitBtn.style.color = "black";
+                    this.reset();
+                    updateFormState();
+                    generateCaptcha();
+                } else {
+                    alert("Submission Error: " + jsonRes.message);
+                    submitBtn.innerText = "Retry Submission";
+                    submitBtn.disabled = false;
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                alert("Network error. Please try again later.");
+                submitBtn.innerText = "Retry Submission";
+                submitBtn.disabled = false;
+            });
+        });
+
+        // Cursor Logic
+        const dot = document.querySelector("#cursor-dot"), outline = document.querySelector("#cursor-outline");
+        window.addEventListener("mousemove", e => {
+            gsap.to(dot, {x: e.clientX - 3, y: e.clientY - 3, duration: 0.1});
+            gsap.to(outline, {x: e.clientX - 20, y: e.clientY - 20, duration: 0.4});
+        });
+        document.querySelectorAll('.nav-link, label, button, input').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                gsap.to(outline, { scale: 1.5, background: 'rgba(255,255,255,0.1)', borderColor: 'transparent', duration: 0.3 });
+            });
+            el.addEventListener('mouseleave', () => {
+                gsap.to(outline, { scale: 1, background: 'transparent', borderColor: 'rgba(255,255,255,0.4)', duration: 0.3 });
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Vision | Bryven Group</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;600&family=Playfair+Display:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
+
+    <style>
+        :root { --bg: #050505; }
+        * { cursor: none !important; -webkit-font-smoothing: antialiased; }
+
+        body { 
+            background-color: var(--bg); 
+            color: white; 
+            font-family: 'Inter', sans-serif; 
+            overflow-x: hidden;
+        }
+
+        /* Original Premium Custom Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { 
+            background: linear-gradient(to bottom, #1a1a1a, #444, #1a1a1a); 
+            border-radius: 20px;
+        }
+
+        /* Original Cursor Layers */
+        #cursor-dot {
+            position: fixed; top: 0; left: 0; width: 6px; height: 6px;
+            background: white; border-radius: 50%; z-index: 100001;
+            pointer-events: none; mix-blend-mode: difference;
+        }
+        #cursor-outline {
+            position: fixed; top: 0; left: 0; width: 40px; height: 40px;
+            border: 1px solid rgba(255,255,255,0.4); border-radius: 50%;
+            z-index: 100000; pointer-events: none;
+        }
+
+        /* Navigation - Exactly like Main */
+        .glass-nav {
+            backdrop-filter: blur(20px) saturate(180%);
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            opacity: 0; 
+        }
+
+        .nav-link {
+            position: relative;
+            transition: all 0.4s ease;
+            display: inline-block;
+            user-select: none;
+        }
+        
+        .nav-link::after {
+            content: ''; position: absolute;
+            bottom: -4px; left: 50%;
+            width: 0; height: 1px;
+            background: white;
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            transform: translateX(-50%);
+        }
+        .nav-link:hover { letter-spacing: 0.3em; }
+        .nav-link:hover::after { width: 100%; }
+
+        /* Typography & Layout */
+        .vision-title { font-family: 'Playfair Display', serif; }
+        
+        .bg-container {
+            position: fixed; inset: -100px;
+            filter: blur(15px) brightness(0.4);
+            z-index: -10;
+        }
+
+        #hero-img {
+            width: 100%; height: 100%; object-fit: cover;
+            animation: breathe 30s infinite alternate ease-in-out;
+        }
+        @keyframes breathe { from { transform: scale(1); } to { transform: scale(1.1); } }
+
+        .vision-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .vision-card:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.15);
+        }
+
+        .line-reveal { 
+            height: 1px; background: rgba(255,255,255,0.1); width: 0;
+        }
+    </style>
+</head>
+<body>
+    <link rel="icon" type="image/png" href="bryven-icon.jpg">
+    <div id="cursor-dot"></div>
+    <div id="cursor-outline"></div>
+
+    <div class="bg-container">
+        <img src="bryven.jpg" id="hero-img" alt="Banner">
+    </div>
+
+    <nav id="nav-bar" class="fixed top-0 w-full z-50 glass-nav px-12 py-6 flex justify-between items-center">
+        <div class="flex items-center space-x-4">
+            <div class="text-[11px] tracking-[0.6em] font-light uppercase cursor-pointer" onclick="window.location.href='index.html'">
+                Bryven <span class="opacity-40">Group</span>
+            </div>
+        </div>
+        
+        <div class="hidden md:flex space-x-12 text-[9px] tracking-[0.4em] uppercase font-medium">
+            <span class="nav-link border-b border-white/40" >Our Vision</span>
+            <span class="nav-link" onclick="window.location.href='joinus.html'">Join Us</span>
+            <span class="nav-link" onclick="window.location.href='contactus.html'">Contact</span>
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <div class="w-1.5 h-1.5 bg-white rounded-full animate-ping"></div>
+            <span class="text-[8px] uppercase tracking-[0.3em] opacity-50">Global Operational</span>
+        </div>
+    </nav>
+
+    <main class="pt-48 px-6 md:px-24 pb-24">
+        <section class="max-w-6xl mx-auto mb-32">
+            <h2 class="text-[10px] tracking-[1em] uppercase text-white/40 mb-8 opacity-0 translate-y-10 reveal-item">What Bryven Represents</h2>
+            <h1 class="vision-title text-5xl md:text-8xl leading-tight opacity-0 translate-y-10 reveal-item">
+               Defining the <span class="italic">Future</span> <br> of Global Impact with United <span class="italic">Intelligence.
+            </h1>
+            <div class="line-reveal mt-12 mb-16"></div>
+            <p class="text-sm md:text-base text-white/60 max-w-3xl leading-relaxed opacity-0 translate-y-10 reveal-item">
+                Bryven Group is a global home for high-level thinkers and builders. We aren't a typical "tech firm." We are a collective that looks at any industry from art and media to finance and health and asks: <strong>How can we make this better?</strong> We provide the capital to start, the technology to scale, and the mentorship to stay at the top.
+            </p>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-[90rem] mx-auto py-32 px-6">
+    
+    <div class="vision-card p-10 border border-white/10 opacity-0 translate-y-10 reveal-item hover:border-white/30 transition-all duration-500 bg-black/20 backdrop-blur-sm">
+        <span class="text-[9px] tracking-[0.4em] text-blue-400 mb-12 block font-bold uppercase">Institutional Alpha</span>
+        <h3 class="text-xl tracking-tight uppercase mb-6 font-medium leading-tight text-white">Venture <br>Synthesis</h3>
+        <p class="text-[13px] leading-relaxed text-white/50 font-light">
+            We provide the funding and the roadmap. By combining aggressive capital with expert mentorship, we turn your startup into a market leader.
+        </p>
+    </div>
+
+    <div class="vision-card p-10 border border-white/10 opacity-0 translate-y-10 reveal-item hover:border-white/30 transition-all duration-500 bg-black/20">
+        <span class="text-[9px] tracking-[0.4em] text-blue-400 mb-12 block font-bold uppercase">Sector Agnosticism</span>
+        <h3 class="text-xl tracking-tight uppercase mb-6 font-medium leading-tight text-white">Multimodal <br>Mastery</h3>
+        <p class="text-[13px] leading-relaxed text-white/50 font-light">
+            We don't limit ourselves to one industry. Whether it’s tech, media, or commerce, we use our massive resource pool to help you dominate your specific field.
+        </p>
+    </div>
+
+    <div class="vision-card p-10 border border-white/10 opacity-0 translate-y-10 reveal-item hover:border-white/30 transition-all duration-500 bg-black/20">
+        <span class="text-[9px] tracking-[0.4em] text-blue-400 mb-12 block font-bold uppercase">Elite Consensus</span>
+        <h3 class="text-xl tracking-tight uppercase mb-6 font-medium leading-tight text-white">Global Arbitrage <br>Network</h3>
+        <p class="text-[13px] leading-relaxed text-white/50 font-light">
+            Success is about access. We connect you directly with world-class experts and leaders who have already built the empires you are currently striving to create.
+        </p>
+    </div>
+
+    <div class="vision-card p-10 border border-white/10 opacity-0 translate-y-10 reveal-item hover:border-white/30 transition-all duration-500 bg-black/20">
+        <span class="text-[9px] tracking-[0.4em] text-blue-400 mb-12 block font-bold uppercase">Influence Engineering</span>
+        <h3 class="text-xl tracking-tight uppercase mb-6 font-medium leading-tight text-white">Digital <br>Sovereignty</h3>
+        <p class="text-[13px] leading-relaxed text-white/50 font-light">
+            We turn followers into a real business. We help creators build professional brand structures that transform social influence into a lasting, profitable empire.
+        </p>
+    </div>
+
+    <div class="vision-card p-10 border border-white/10 opacity-0 translate-y-10 reveal-item hover:border-white/30 transition-all duration-500 bg-black/20">
+        <span class="text-[9px] tracking-[0.4em] text-blue-400 mb-12 block font-bold uppercase">Systems Logic</span>
+        <h3 class="text-xl tracking-tight uppercase mb-6 font-medium leading-tight text-white">Autonomous <br>Infrastructure</h3>
+        <p class="text-[13px] leading-relaxed text-white/50 font-light">
+            We use AI and custom software to handle the heavy lifting. By automating your daily operations, we give you the time to focus on the big picture.
+        </p>
+    </div>
+
+    <div class="vision-card p-10 border border-white/10 opacity-0 translate-y-10 reveal-item hover:border-white/30 transition-all duration-500 bg-black/20">
+        <span class="text-[9px] tracking-[0.4em] text-blue-400 mb-12 block font-bold uppercase">Geopolitical Reach</span>
+        <h3 class="text-xl tracking-tight uppercase mb-6 font-medium leading-tight text-white">Transnational <br>Scaling</h3>
+        <p class="text-[13px] leading-relaxed text-white/50 font-light">
+            We help you go global. Our team handles the legal and cultural complexities of moving into new international markets so your growth has no borders.
+        </p>
+    </div>
+
+    <div class="vision-card p-10 border border-white/10 opacity-0 translate-y-10 reveal-item hover:border-white/30 transition-all duration-500 bg-black/20">
+        <span class="text-[9px] tracking-[0.4em] text-blue-400 mb-12 block font-bold uppercase">Strategic Insight</span>
+        <h3 class="text-xl tracking-tight uppercase mb-6 font-medium leading-tight text-white">Predictive <br>Intelligence</h3>
+        <p class="text-[13px] leading-relaxed text-white/50 font-light">
+            Don't just react to the market—anticipate it. We use data-driven insights to help you see industry shifts coming before they happen, keeping you ahead of the curve.
+        </p>
+    </div>
+
+    <div class="vision-card p-10 border border-white/10 opacity-0 translate-y-10 reveal-item hover:border-white/30 transition-all duration-500 bg-black/20">
+        <span class="text-[9px] tracking-[0.4em] text-blue-400 mb-12 block font-bold uppercase">Structural Resilience</span>
+        <h3 class="text-xl tracking-tight uppercase mb-6 font-medium leading-tight text-white">Operational <br>Antifragility</h3>
+        <p class="text-[13px] leading-relaxed text-white/50 font-light">
+            We build businesses that grow stronger during tough times. Our organizational strategies ensure you don't just survive market chaos, you profit from it.
+        </p>
+    </div>
+
+    <div class="vision-card p-10 border border-white/10 opacity-0 translate-y-10 reveal-item hover:border-white/30 transition-all duration-500 bg-black/20">
+        <span class="text-[9px] tracking-[0.4em] text-blue-400 mb-12 block font-bold uppercase">Asset Protection</span>
+        <h3 class="text-xl tracking-tight uppercase mb-6 font-medium leading-tight text-white">Regulatory <br>Fortress</h3>
+        <p class="text-[13px] leading-relaxed text-white/50 font-light">
+            We protect your ideas. Our legal frameworks safeguard your intellectual property and defend your business against competition on a global scale.
+        </p>
+    </div>
+
+    <div class="vision-card p-10 border border-white/10 opacity-0 translate-y-10 reveal-item hover:border-white/30 transition-all duration-500 bg-black/20">
+        <span class="text-[9px] tracking-[0.4em] text-blue-400 mb-12 block font-bold uppercase">Aesthetic Power</span>
+        <h3 class="text-xl tracking-tight uppercase mb-6 font-medium leading-tight text-white">Iconic <br>Identity</h3>
+        <p class="text-[13px] leading-relaxed text-white/50 font-light">
+            We make your brand unforgettable. We create elite visual identities that command authority and earn instant trust from customers worldwide.
+        </p>
+    </div>
+
+    <div class="vision-card p-10 border border-white/10 opacity-0 translate-y-10 reveal-item hover:border-white/30 transition-all duration-500 bg-black/20">
+        <span class="text-[9px] tracking-[0.4em] text-blue-400 mb-12 block font-bold uppercase">Liquidity Logic</span>
+        <h3 class="text-xl tracking-tight uppercase mb-6 font-medium leading-tight text-white">Value <br>Realization</h3>
+        <p class="text-[13px] leading-relaxed text-white/50 font-light">
+            We help you cash out at the highest value. Whether through a big acquisition or an IPO, we design the exit strategy that maximizes your personal wealth.
+        </p>
+    </div>
+
+    <div class="vision-card p-10 border border-white/10 opacity-0 translate-y-10 reveal-item hover:border-white/30 transition-all duration-500 bg-black/20">
+        <span class="text-[9px] tracking-[0.4em] text-blue-400 mb-12 block font-bold uppercase">The Mandate</span>
+        <h3 class="text-xl tracking-tight uppercase mb-6 font-medium leading-tight text-white">Categorical <br>Excellence</h3>
+        <p class="text-[13px] leading-relaxed text-white/50 font-light">
+            Bryven is a mark of quality. Joining our ecosystem means committing to the highest standards of work, we aren't here for "average," we are here for the best.
+        </p>
+    </div>
+
+</section>
+
+        <section class="mt-40 text-center opacity-0 translate-y-10 reveal-item">
+            <div class="max-w-2xl mx-auto mb-12 px-4">
+                <h4 class="text-[10px] tracking-[0.5em] uppercase text-white/30 mb-6">Global reach. Human touch.</h4>
+                <p class="text-xs text-white/40 leading-loose italic">
+                    "At the end of the day, companies don't build the future—people do. Bryven exists to make sure those people have everything they need to succeed."
+                </p>
+            </div>
+            <p class="text-[10px] tracking-[1.5em] uppercase text-white/20">A Global Bryven Group Initiative</p>
+        </section>
+    </main>
+    <footer class="pb-12 text-center">
+        <p class="text-[8px] tracking-[0.8em] uppercase text-white/60 font-light">
+            &copy; 2026 Bryven Group. All Rights Reserved.
+        </p>
+    </footer>
+    <script>
+        // Original Snappy Cursor Logic
+        const dot = document.querySelector("#cursor-dot");
+        const outline = document.querySelector("#cursor-outline");
+        const xTo = gsap.quickTo(dot, "x", {duration: 0.1, ease: "power3"}),
+              yTo = gsap.quickTo(dot, "y", {duration: 0.1, ease: "power3"}),
+              oxTo = gsap.quickTo(outline, "x", {duration: 0.25, ease: "power3"}),
+              oyTo = gsap.quickTo(outline, "y", {duration: 0.25, ease: "power3"});
+
+        window.addEventListener("mousemove", e => {
+            xTo(e.clientX - 3); yTo(e.clientY - 3);
+            oxTo(e.clientX - 20); oyTo(e.clientY - 20);
+        });
+
+        // Entrance Animation Sequence
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline({ defaults: { ease: "expo.out" }});
+
+            // Snap the Nav Bar in first
+            tl.to("#nav-bar", { opacity: 1, duration: 1.2 })
+              .to(".reveal-item", { 
+                opacity: 1, 
+                y: 0, 
+                duration: 1.5, 
+                stagger: 0.1 
+              }, "-=0.8")
+              .to(".line-reveal", { 
+                width: "100%", 
+                duration: 2, 
+                ease: "power4.inOut" 
+              }, "-=1.5");
+        });
+
+        // Hover Effects (Original Logic)
+        document.querySelectorAll('.nav-link, .vision-card').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                gsap.to(outline, { scale: 1.5, background: 'rgba(255,255,255,0.1)', borderColor: 'transparent', duration: 0.3 });
+                if(el.classList.contains('vision-card')) gsap.to(el, { y: -10, duration: 0.4 });
+            });
+            el.addEventListener('mouseleave', () => {
+                gsap.to(outline, { scale: 1, background: 'transparent', borderColor: 'rgba(255,255,255,0.4)', duration: 0.3 });
+                if(el.classList.contains('vision-card')) gsap.to(el, { y: 0, duration: 0.4 });
+            });
+        });
+
+        // Original Parallax for Background
+        window.addEventListener("mousemove", (e) => {
+            const xPos = (e.clientX / window.innerWidth - 0.5) * 30;
+            const yPos = (e.clientY / window.innerHeight - 0.5) * 30;
+            gsap.to(".bg-container", { x: xPos, y: yPos, duration: 2 });
+        });
+    </script>
+</body>
+
+</html>
