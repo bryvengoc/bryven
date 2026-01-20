@@ -12,7 +12,6 @@
     <style>
         :root { --bg: #050505; }
         
-        /* 1. Complete Cursor Control */
         * { cursor: none !important; }
 
         ::-webkit-scrollbar { width: 5px; }
@@ -29,7 +28,6 @@
             overflow: hidden; 
         }
 
-        /* Cursor Layers */
         #cursor-dot {
             position: fixed; top: 0; left: 0; width: 6px; height: 6px;
             background: white; border-radius: 50%; z-index: 100001;
@@ -40,14 +38,12 @@
             border: 1px solid rgba(255,255,255,0.4); border-radius: 50%;
             z-index: 100000; pointer-events: none;
         }
-        /* Click Ripple Effect */
         .cursor-ripple {
             position: fixed; top: 0; left: 0; width: 40px; height: 40px;
             border: 1px solid white; border-radius: 50%;
             z-index: 99999; pointer-events: none; opacity: 0;
         }
 
-        /* Layout Styles */
         #intro-overlay {
             position: fixed; inset: 0; background: black;
             z-index: 9997; pointer-events: none;
@@ -60,19 +56,19 @@
             border-radius: 9999px; pointer-events: none;
         }
 
+        /* UPDATED: Removed background, blur, and border */
         .glass-nav {
-            backdrop-filter: blur(20px) saturate(180%);
-            background: rgba(255, 255, 255, 0.03);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background: transparent;
+            backdrop-filter: none;
+            border-bottom: none;
             opacity: 0;
         }
 
-        /* Clean Nav Links (No Href) */
         .nav-link {
             position: relative;
             transition: all 0.4s ease;
             display: inline-block;
-            user-select: none; /* Prevents text highlighting on click */
+            user-select: none;
         }
         
         .nav-link::after {
@@ -90,27 +86,23 @@
         .reveal { clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); }
 
         .bg-container {
-            position: absolute; inset: -100px;
-            filter: blur(12px); z-index: -10;
+            position: absolute; inset: 0;
+            z-index: -10;
+            overflow: hidden;
         }
-        #hero-img {
-            width: 100%; height: 100%; object-fit: cover;
-            opacity: 0; animation: breathe 30s infinite alternate ease-in-out;
-        }
-        @keyframes breathe { from { transform: scale(1); } to { transform: scale(1.1); } }
     </style>
 </head>
 <body>
-    <link rel="icon" type="image/png" href="bryven-icon.jpg">
+    <link rel="icon" type="image/png" href="bryven-icon.png">
     <img src="bryven-logo.jpg" id="morphing-logo" alt="Logo">
     <div id="intro-overlay"></div>
 
     <div id="cursor-dot"></div>
     <div id="cursor-outline"></div>
 
-    <nav id="nav-bar" class="fixed top-0 w-full z-50 glass-nav px-12 py-6 flex justify-between items-center">
+    <nav id="nav-bar" class="fixed top-0 w-full z-50 glass-nav px-12 py-4 flex justify-between items-center">
         <div class="flex items-center space-x-4">
-            <div class="text-[11px] tracking-[0.6em] font-light uppercase cursor-pointer" onclick="window.location.href='index.html'">
+            <div class="text-[11px] tracking-[0.6em] font-light uppercase cursor-pointer" >
                 Bryven <span class="opacity-40">Group</span>
             </div>
         </div>
@@ -128,12 +120,16 @@
     </nav>
 
     <section class="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden">
-        <div class="bg-container"><img src="bryven.jpg" id="hero-img"></div>
+        <div class="bg-container">
+            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2070" 
+                 id="hero-img" 
+                 class="w-full h-full object-cover grayscale opacity-0">
+        </div>
         <div class="absolute inset-0 bg-black/40 z-0"></div>
 
         <div class="text-center z-10">
             <div class="reveal">
-                <h1 id="main-title" class="hero-title text-8xl md:text-[12rem] font-bold leading-none mb-6 opacity-0 translate-y-20">
+                <h1 id="main-title" class="hero-title text-8xl md:text-[10rem] font-bold leading-none mb-6 opacity-0 translate-y-20">
                     BRYVEN
                 </h1>
             </div>
@@ -149,7 +145,6 @@
     </section>
     
     <script>
-        // 1. Advanced Cursor & Ripple Logic
         const dot = document.querySelector("#cursor-dot");
         const outline = document.querySelector("#cursor-outline");
         
@@ -163,95 +158,28 @@
             oxTo(e.clientX - 20); oyTo(e.clientY - 20);
         });
 
-        // Click Ripple Effect
         window.addEventListener("mousedown", e => {
             const ripple = document.createElement("div");
             ripple.className = "cursor-ripple";
             document.body.appendChild(ripple);
-            
             gsap.set(ripple, { x: e.clientX - 20, y: e.clientY - 20 });
-            gsap.to(ripple, { 
-                scale: 2, opacity: 0, duration: 0.6, 
-                onComplete: () => ripple.remove() 
-            });
-            gsap.to(outline, { scale: 0.8, duration: 0.1 });
+            gsap.to(ripple, { scale: 2, opacity: 0, duration: 0.6, onComplete: () => ripple.remove() });
         });
 
-        window.addEventListener("mouseup", () => {
-            gsap.to(outline, { scale: 1, duration: 0.2 });
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline({ defaults: { ease: "power3.inOut", duration: 1.5 } });
+
+            tl.to("#morphing-logo", { opacity: 1, scale: 1, duration: 1.2, delay: 0.4 })
+            .to("#morphing-logo", { opacity: 0, scale: 1.05, filter: "blur(15px)", duration: 1.2, ease: "power2.in" }, "+=0.5")
+            .to("#intro-overlay", { opacity: 0, duration: 1.5 }, "-=0.8")
+            .to("#nav-bar", { opacity: 1, duration: 1.2 }, "-=1")
+            .to("#main-title", { opacity: 1, y: 0, duration: 1.8, ease: "expo.out" }, "-=1.2")
+            .to("#tagline", { opacity: 1, letterSpacing: "1.2em", duration: 1.8 }, "-=1.5")
+            .to("#hero-img", { opacity: 0.4, duration: 2.5 }, "-=2")
+            .to("#cta", { opacity: 1, duration: 1 }, "-=1.2");
         });
 
-        // 2. Entrance Sequence
-        // 2. Professional Entrance: Weighted & Intentional
-window.addEventListener('load', () => {
-    const tl = gsap.timeline({ 
-        defaults: { 
-            ease: "power3.inOut", // Professional, smooth acceleration/deceleration
-            duration: 1.5 
-        }
-    });
-
-    // Reset logo state
-    gsap.set("#morphing-logo", { opacity: 0, scale: 0.95, filter: "blur(0px)" });
-
-    tl.to("#morphing-logo", { 
-        opacity: 1, 
-        scale: 1, 
-        duration: 1.2,
-        delay: 0.4
-    })
-    .to("#morphing-logo", {
-        opacity: 0,
-        scale: 1.05,
-        filter: "blur(15px)",
-        duration: 1.2,
-        ease: "power2.in" // Logo 'dissolves' into the background
-    }, "+=0.5") // Short, professional pause to establish branding
-    .to("#intro-overlay", { 
-        opacity: 0, 
-        duration: 1.5
-    }, "-=0.8") // Overlay clears as the logo is finishing its dissolve
-    .to("#nav-bar", { 
-        opacity: 1, 
-        duration: 1.2 
-    }, "-=1")
-    .to("#main-title", { 
-        opacity: 1, 
-        y: 0, 
-        duration: 1.8, 
-        ease: "expo.out" // Title has a very smooth, lingering finish
-    }, "-=1.2")
-    .to("#tagline", { 
-        opacity: 1, 
-        letterSpacing: "1.2em", 
-        duration: 1.8 
-    }, "-=1.5")
-    .to("#hero-img", { 
-        opacity: 0.4, 
-        duration: 2.5 
-    }, "-=2")
-    .to("#cta", { 
-        opacity: 1, 
-        duration: 1 
-    }, "-=1.2");
-});
-
-        // 3. Parallax
-        window.addEventListener("mousemove", (e) => {
-            const xPos = (e.clientX / window.innerWidth - 0.5) * 40;
-            const yPos = (e.clientY / window.innerHeight - 0.5) * 40;
-            gsap.to(".bg-container", { x: xPos, y: yPos, duration: 2 });
-        });
-
-        // 4. Clean Navigation Clicks
         document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-                const section = link.innerText.toLowerCase();
-                console.log("Navigating to:", section);
-                // Add your navigation logic here
-            });
-            
-            // Cursor Hover Effects
             link.addEventListener('mouseenter', () => {
                 gsap.to(outline, { scale: 1.5, background: 'rgba(255,255,255,0.1)', borderColor: 'transparent', duration: 0.3 });
             });
@@ -261,5 +189,4 @@ window.addEventListener('load', () => {
         });
     </script>
 </body>
-
 </html>
